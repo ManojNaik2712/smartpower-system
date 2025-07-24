@@ -9,8 +9,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -19,17 +17,18 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 public class SecurityConfiguration {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+    private final UserDetailServiceProvider userDetailServiceProvider;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-
+    public SecurityConfiguration(PasswordEncoder passwordEncoder, UserDetailServiceProvider userDetailServiceProvider) {
+        this.passwordEncoder = passwordEncoder;
+        this.userDetailServiceProvider = userDetailServiceProvider;
+    }
 
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
-        provider.setUserDetailsService(userDetailsService);
+        provider.setUserDetailsService(userDetailServiceProvider);
         return provider;
     }
 
@@ -47,8 +46,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/auth/login").permitAll()
                         .anyRequest().authenticated()
                 )
-                .csrf(csrf -> csrf.disable()) // ✅ updated way to disable CSRF
-                .httpBasic(withDefaults());   // or use .formLogin(), or JWT config
+                .csrf(csrf -> csrf.disable())
+                .httpBasic(withDefaults());
 
         return http.build();
     }

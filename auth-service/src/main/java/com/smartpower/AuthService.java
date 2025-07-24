@@ -1,6 +1,5 @@
 package com.smartpower;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,14 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
-    @Autowired
-    private UserClient userClient;
+    private final JwtService jwtService;
+    private final UserClient userClient;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    public AuthService(AuthenticationManager authenticationManager, JwtService jwtService,
+                       UserClient userClient) {
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
+        this.userClient = userClient;
+    }
 
     public String createUser(UserRequest userRequest) {
         userClient.saveUser(userRequest);
@@ -25,13 +26,11 @@ public class AuthService {
     }
 
     public String loginUser(LoginDTO loginDTO) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
 
         if (!authentication.isAuthenticated()) {
             throw new BadCredentialsException("Invalid credentials");
         }
-        System.out.println(loginDTO.getEmail());
 
         UserResponse user = userClient.getUser(loginDTO.getEmail());
         return jwtService.generateToken(user.getEmail(), user.getRole());

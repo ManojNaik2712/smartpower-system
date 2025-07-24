@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/saveUser")
     void createUser(@RequestBody UserRequest userRequest) {
@@ -20,5 +23,10 @@ public class UserController {
     public UserResponse getUser(@PathVariable("email") String email){
         return userService.getUser(email);
 
+    }
+    @DeleteMapping("/deleteUser/{email}")
+    public String deleteUser(@PathVariable("email") String email){
+        userService.deleteUser(email);
+        return "deleted succesfully";
     }
 }

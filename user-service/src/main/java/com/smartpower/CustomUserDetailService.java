@@ -1,6 +1,5 @@
 package com.smartpower;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,15 +10,15 @@ import java.util.Collections;
 @Service
 public class CustomUserDetailService implements UserDetailServiceProvider {
 
-    private final UserClient userClient;
+    private final UserService userService;
 
-    public CustomUserDetailService(UserClient userClient) {
-        this.userClient = userClient;
+    public CustomUserDetailService(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserResponse user = userClient.getUser(email);
+        UserResponse user = userService.getUser(email);
         if (user == null) {
             throw new UsernameNotFoundException("Username not found with email:" + email);
         }

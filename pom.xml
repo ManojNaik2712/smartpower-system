@@ -12,15 +12,15 @@
     <modules>
         <module>auth-service</module>
         <module>user-service</module>
+        <module>common-security</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
-            <!-- Spring Boot BOM -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>3.2.5</version> <!-- Use latest or stable -->
+                <version>3.2.5</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -28,11 +28,10 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>2023.0.1</version> <!-- or your compatible version -->
+                <version>2023.0.1</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
@@ -45,7 +44,6 @@
     <build>
         <pluginManagement>
             <plugins>
-                <!-- Spring Boot Plugin -->
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
@@ -54,12 +52,4 @@
         </pluginManagement>
     </build>
 
-    <!--  <dependencies>-->
-    <!--    <dependency>-->
-    <!--      <groupId>junit</groupId>-->
-    <!--      <artifactId>junit</artifactId>-->
-    <!--      <version>3.8.1</version>-->
-    <!--      <scope>test</scope>-->
-    <!--    </dependency>-->
-    <!--  </dependencies>-->
 </project>

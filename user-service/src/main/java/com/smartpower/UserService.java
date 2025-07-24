@@ -1,16 +1,19 @@
 package com.smartpower;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    @Autowired
-    UserRepository userRepository;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+    }
 
     public void createUser(UserRequest userRequest) {
         User user = new User();
@@ -22,10 +25,9 @@ public class UserService {
     }
 
     public UserResponse getUser(String email) {
-        System.out.println(email);
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            System.out.println("no user");
+            throw new UsernameNotFoundException("User not found");
         }
         return UserResponse.builder()
                 .email(user.getEmail())
@@ -33,5 +35,9 @@ public class UserService {
                 .role(user.getRole())
                 .password(user.getPassword())
                 .build();
+    }
+
+    public void deleteUser(String email) {
+        userRepository.deleteByEmail(email);
     }
 }
