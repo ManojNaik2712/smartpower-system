@@ -39,7 +39,7 @@ public class UserController {
     @PostMapping("/send-alert")
     public ResponseEntity<String> sendAlert(@RequestBody AlertRequest request){
         outageService.sendOutageMessage(request.getPincode(),request.getTitle(),request.getContent());
-        return ResponseEntity.ok("Message sent to users in picode:" +request.getPincode());
+        return ResponseEntity.ok("Message sent to users in pincode:" +request.getPincode());
     }
 
     @GetMapping("/getMessage")

@@ -20,7 +20,7 @@ public class UserSecurityConfiguration {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/saveUser", "/user/getUser/{email}").permitAll()
-                        .requestMatchers("/user/deleteUser/{email}","user/getMessage").hasRole("USER")
+                        .requestMatchers("/user/deleteUser/{email}", "user/getMessage").hasRole("USER")
                         .requestMatchers("/user/send-alert").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )

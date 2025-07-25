@@ -29,10 +29,10 @@ public class OutageService {
         if (users.isEmpty()) {
             throw new RuntimeException("No user found for pincode:" + pincode);
         }
+
         for (User user : users) {
             OutageNotificationEvent event = new OutageNotificationEvent(user.getEmail(), user.getName(), content);
             kafkaTemplate.send("outage-topic", event);
-            log.info("outage message is send to:", user.getEmail());
         }
 
         OutageMessage message = new OutageMessage();

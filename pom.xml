@@ -13,6 +13,7 @@
         <module>auth-service</module>
         <module>user-service</module>
         <module>common-security</module>
+        <module>notification-service</module>
     </modules>
 
     <dependencyManagement>
