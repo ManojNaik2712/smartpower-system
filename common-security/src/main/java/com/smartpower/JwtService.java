@@ -17,7 +17,7 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secretkey;
 
-    public String generateToken(String email, String role) {
+    public String generateToken(String email, Role role) {
         return Jwts.builder()
                 .setSubject(email)
                 .claim("role", role)
@@ -28,7 +28,6 @@ public class JwtService {
     }
 
     private SecretKey getKey() {
-        System.out.println("S:" + secretkey);
         byte[] keyBytes = Decoders.BASE64.decode(secretkey);
         return Keys.hmacShaKeyFor(keyBytes);
     }

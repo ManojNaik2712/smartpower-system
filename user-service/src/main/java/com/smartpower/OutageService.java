@@ -1,0 +1,50 @@
+package com.smartpower;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Service
+public class OutageService {
+
+    private static final Logger log = LoggerFactory.getLogger(OutageService.class);
+    private final OutageRepository outageRepository;
+    private final UserRepository userRepository;
+    private final KafkaTemplate<String, OutageNotificationEvent> kafkaTemplate;
+
+    public OutageService(OutageRepository outageRepository, UserRepository userRepository,
+                         KafkaTemplate<String, OutageNotificationEvent> kafkaTemplate) {
+        this.outageRepository = outageRepository;
+        this.userRepository = userRepository;
+        this.kafkaTemplate = kafkaTemplate;
+    }
+
+    public void sendOutageMessage(String pincode, String title, String content) {
+        List<User> users = userRepository.findByPincodeAndRole(pincode, Role.USER);
+
+        if (users.isEmpty()) {
+            throw new RuntimeException("No user found for pincode:" + pincode);
+        }
+        for (User user : users) {
+            OutageNotificationEvent event = new OutageNotificationEvent(user.getEmail(), user.getName(), content);
+            kafkaTemplate.send("outage-topic", event);
+            log.info("outage message is send to:", user.getEmail());
+        }
+
+        OutageMessage message = new OutageMessage();
+        message.setPincode(pincode);
+        message.setContent(content);
+        message.setTitle(title);
+        message.setTimestamp(LocalDateTime.now());
+
+        outageRepository.save(message);
+    }
+
+    public List<OutageMessage> getMessages(String pincode) {
+        return outageRepository.findByPincode(pincode);
+    }
+}

@@ -7,13 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRequest {
-    private String name;
+public class OutageNotificationEvent {
     private String email;
-    private String password;
-    private String pincode;
-
-//    @Enumerated(EnumType.STRING)
-    private Role role;
-
+    private String name;
+    private String message;
 }

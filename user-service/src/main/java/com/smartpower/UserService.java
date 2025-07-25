@@ -21,6 +21,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         user.setRole(userRequest.getRole());
         user.setEmail(userRequest.getEmail());
+        user.setPincode(userRequest.getPincode());
         userRepository.save(user);
     }
 
@@ -34,6 +35,7 @@ public class UserService {
                 .name(user.getName())
                 .role(user.getRole())
                 .password(user.getPassword())
+                .pincode(user.getPincode())
                 .build();
     }
 
