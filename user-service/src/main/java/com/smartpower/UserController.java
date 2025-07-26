@@ -2,6 +2,7 @@ package com.smartpower;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,9 +32,9 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteUser/{email}")
-    public String deleteUser(@PathVariable("email") String email) {
+    public ResponseEntity<String> deleteUser(@PathVariable("email") String email) {
         userService.deleteUser(email);
-        return "deleted succesfully";
+        return ResponseEntity.ok("user deleted succesfully");
     }
 
     @PostMapping("/send-alert")
@@ -47,5 +48,10 @@ public class UserController {
         String email= authentication.getName();
         User user= userRepository.findByEmail(email);
         return outageService.getMessages(user.getPincode());
+    }
+    @PutMapping("/update-due-date")
+     public ResponseEntity<String> updateDueDate(@RequestParam String email){
+        return userService.updateDueDate(email);
+
     }
 }

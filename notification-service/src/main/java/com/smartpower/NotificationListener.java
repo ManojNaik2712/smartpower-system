@@ -15,17 +15,33 @@ public class NotificationListener {
     }
 
     @KafkaListener(topics = "outage-topic", groupId = "notification-group", containerFactory = "kafkaListenerContainerFactory")
-    public void listen(OutageNotificationEvent event) {
-        sendEmail(event);
+    public void listenOutage(OutageNotificationEvent event) {
+        System.out.println("Recived due reminder: " + event);
+        sendEmailForOutage(event);
     }
 
-    private void sendEmail(OutageNotificationEvent event) {
+    private void sendEmailForOutage(OutageNotificationEvent event) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(event.getEmail());
         message.setSubject("⚠ Power Outage Alert");
         message.setText("Hello " + event.getName() + ",\n\n" + event.getMessage() + "\n\nStay safe,\nSmartPower Team");
         message.setFrom("manunaik599@gmail.com");
 
+        mailSender.send(message);
+    }
+
+    @KafkaListener(topics = "due-date-reminder-topic", groupId = "notification-group", containerFactory = "kafkaListenerContainerFactory")
+    public void listenDueReminder(DueDateReminderEvent event) {
+        System.out.println("Recived due reminder: " + event);
+        sendEmailForDueReminder(event);
+    }
+
+    private void sendEmailForDueReminder(DueDateReminderEvent event) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("manunaik599@gmail.com");
+        message.setTo(event.getEmail());
+        message.setSubject("Due date Reminder");
+        message.setText(event.getMessage());
         mailSender.send(message);
     }
 }
