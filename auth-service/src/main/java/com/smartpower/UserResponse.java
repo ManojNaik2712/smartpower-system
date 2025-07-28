@@ -12,7 +12,5 @@ public class UserResponse {
     private String email;
     private String password;
     private String pincode;
-
-//    @Enumerated(EnumType.STRING)
     private Role role;
 }

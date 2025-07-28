@@ -2,7 +2,6 @@ package com.smartpower;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,20 +37,20 @@ public class UserController {
     }
 
     @PostMapping("/send-alert")
-    public ResponseEntity<String> sendAlert(@RequestBody AlertRequest request){
-        outageService.sendOutageMessage(request.getPincode(),request.getTitle(),request.getContent());
-        return ResponseEntity.ok("Message sent to users in pincode:" +request.getPincode());
+    public ResponseEntity<String> sendAlert(@RequestBody AlertRequest request) {
+        outageService.sendOutageMessage(request.getPincode(), request.getTitle(), request.getContent());
+        return ResponseEntity.ok("Message sent to users in pincode:" + request.getPincode());
     }
 
     @GetMapping("/getMessage")
-    public List<OutageMessage> getMessages(Authentication authentication){
-        String email= authentication.getName();
-        User user= userRepository.findByEmail(email);
+    public List<OutageMessage> getMessages(Authentication authentication) {
+        String email = authentication.getName();
+        User user = userRepository.findByEmail(email);
         return outageService.getMessages(user.getPincode());
     }
-    @PutMapping("/update-due-date")
-     public ResponseEntity<String> updateDueDate(@RequestParam String email){
-        return userService.updateDueDate(email);
 
+    @PutMapping("/update-due-date")
+    public ResponseEntity<String> updateDueDate(@RequestParam("email") String email) {
+        return userService.updateDueDate(email);
     }
 }

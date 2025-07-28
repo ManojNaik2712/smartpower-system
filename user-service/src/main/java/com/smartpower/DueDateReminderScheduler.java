@@ -3,27 +3,30 @@ package com.smartpower;
 
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+@Service
 public class DueDateReminderScheduler {
 
     private final UserRepository userRepository;
-    private final KafkaTemplate<String, DueDateReminderEvent> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
 
-    public DueDateReminderScheduler(UserRepository userRepository, KafkaTemplate<String, DueDateReminderEvent> kafkaTemplate) {
+    public DueDateReminderScheduler(UserRepository userRepository, KafkaTemplate<String, Object> kafkaTemplate) {
         this.userRepository = userRepository;
         this.kafkaTemplate = kafkaTemplate;
     }
 
 
-    @Scheduled(cron = "0 0 9 * * ?") // Every day at 9 AM
+    @Scheduled(cron = "0 45 11 * * ?") //Every day at 11 45Am due date notification will be sent
     public void sendDueDateReminders() {
         List<User> users = userRepository.findAll();
-        LocalDate today = LocalDate.now();
+        LocalDateTime today = LocalDateTime.now();
 
         for (User user : users) {
             LocalDate dueDate = user.getDuedate();

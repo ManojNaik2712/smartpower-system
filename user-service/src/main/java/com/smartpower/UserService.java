@@ -7,14 +7,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 public class UserService {
-    @Value("${admin.secret}")
-    private String adminSecret;
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    @Value("${admin.secret}")
+    private String adminSecret;
 
     public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.passwordEncoder = passwordEncoder;

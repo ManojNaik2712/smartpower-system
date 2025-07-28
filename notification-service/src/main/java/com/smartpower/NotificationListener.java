@@ -20,6 +20,12 @@ public class NotificationListener {
         sendEmailForOutage(event);
     }
 
+    @KafkaListener(topics = "due-date-reminder-topic", groupId = "notification-group", containerFactory = "kafkaListenerContainerFactory")
+    public void listenDueReminder(DueDateReminderEvent event) {
+        System.out.println("Recived due reminder: " + event);
+        sendEmailForDueReminder(event);
+    }
+
     private void sendEmailForOutage(OutageNotificationEvent event) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(event.getEmail());
@@ -28,12 +34,6 @@ public class NotificationListener {
         message.setFrom("manunaik599@gmail.com");
 
         mailSender.send(message);
-    }
-
-    @KafkaListener(topics = "due-date-reminder-topic", groupId = "notification-group", containerFactory = "kafkaListenerContainerFactory")
-    public void listenDueReminder(DueDateReminderEvent event) {
-        System.out.println("Recived due reminder: " + event);
-        sendEmailForDueReminder(event);
     }
 
     private void sendEmailForDueReminder(DueDateReminderEvent event) {

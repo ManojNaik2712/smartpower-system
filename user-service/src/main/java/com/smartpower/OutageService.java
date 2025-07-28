@@ -14,10 +14,10 @@ public class OutageService {
     private static final Logger log = LoggerFactory.getLogger(OutageService.class);
     private final OutageRepository outageRepository;
     private final UserRepository userRepository;
-    private final KafkaTemplate<String, OutageNotificationEvent> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     public OutageService(OutageRepository outageRepository, UserRepository userRepository,
-                         KafkaTemplate<String, OutageNotificationEvent> kafkaTemplate) {
+                         KafkaTemplate<String, Object> kafkaTemplate) {
         this.outageRepository = outageRepository;
         this.userRepository = userRepository;
         this.kafkaTemplate = kafkaTemplate;
@@ -40,7 +40,6 @@ public class OutageService {
         message.setContent(content);
         message.setTitle(title);
         message.setTimestamp(LocalDateTime.now());
-
         outageRepository.save(message);
     }
 
