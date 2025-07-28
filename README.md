@@ -1,4 +1,5 @@
-⚡ SmartPower System
+<h1>SmartPower System</h1>
+
 A Spring Boot microservices-based electricity management system that handles user registration, authentication, billing, payment due reminders, and power outage notifications. Built for a scalable backend architecture.
 
 Project Structre
