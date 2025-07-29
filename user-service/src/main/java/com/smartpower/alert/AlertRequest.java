@@ -1,4 +1,4 @@
-package com.smartpower;
+package com.smartpower.alert;
 
 import lombok.Data;
 

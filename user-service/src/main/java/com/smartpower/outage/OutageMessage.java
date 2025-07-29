@@ -1,4 +1,4 @@
-package com.smartpower;
+package com.smartpower.outage;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

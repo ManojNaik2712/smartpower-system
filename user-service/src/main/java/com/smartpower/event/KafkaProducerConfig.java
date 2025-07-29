@@ -1,4 +1,4 @@
-package com.smartpower;
+package com.smartpower.event;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;

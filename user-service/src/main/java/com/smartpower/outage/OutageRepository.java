@@ -1,4 +1,4 @@
-package com.smartpower;
+package com.smartpower.outage;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

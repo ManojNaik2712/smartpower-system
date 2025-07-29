@@ -1,5 +1,6 @@
-package com.smartpower;
+package com.smartpower.user;
 
+import com.smartpower.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +10,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -27,6 +27,7 @@ public class User implements UserDetails {
 
     private String name;
     private String password;
+    private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
     private Role role;

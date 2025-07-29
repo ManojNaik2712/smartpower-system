@@ -1,7 +1,6 @@
-package com.smartpower;
+package com.smartpower.user;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import com.smartpower.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +14,7 @@ public class UserResponse {
     private String name;
     private String email;
     private String password;
+    private String phoneNumber;
     private String pincode;
     private Role role;
 }

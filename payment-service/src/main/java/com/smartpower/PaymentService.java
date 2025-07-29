@@ -3,11 +3,13 @@ package com.smartpower;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class PaymentService {
@@ -21,20 +23,10 @@ public class PaymentService {
         this.paymentRepository = paymentRepository;
         this.userClient = userClient;
         this.jwtServiceUtil = jwtServiceUtil;
+
     }
-
     public void makePayment(PaymentRequest request) {
-        //Get the email from token
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest httpRequest = attr.getRequest();
-
-        String authHeader = httpRequest.getHeader("Authorization");
-
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new RuntimeException("Missing or invalid Authorization header");
-        }
-
-        String token = authHeader.substring(7);
+        String token = jwtServiceUtil.getToken();
         String email = jwtServiceUtil.extractEmail(token);
 
         Payment payment = new Payment();
@@ -46,5 +38,11 @@ public class PaymentService {
         paymentRepository.save(payment);
 
         userClient.updateDueDate(email);
+    }
+
+    public List<Payment> getPayment() {
+        String token = jwtServiceUtil.getToken();
+        String email = jwtServiceUtil.extractEmail(token);
+         return paymentRepository.findByUserEmail(email);
     }
 }

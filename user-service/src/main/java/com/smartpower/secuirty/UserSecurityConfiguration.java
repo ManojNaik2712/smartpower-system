@@ -1,5 +1,6 @@
-package com.smartpower;
+package com.smartpower.secuirty;
 
+import com.smartpower.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,8 +21,8 @@ public class UserSecurityConfiguration {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/saveUser", "/user/getUser/{email}").permitAll()
-                        .requestMatchers("/user/deleteUser/{email}", "user/getMessage").hasRole("USER")
-                        .requestMatchers("/user/send-alert").hasRole("ADMIN")
+                        .requestMatchers("/user/deleteUser", "user/getMessage","user/update/profile").hasRole("USER")
+                        .requestMatchers("/user/send-alert","/user/getAllUser").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable())

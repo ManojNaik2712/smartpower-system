@@ -1,6 +1,8 @@
-package com.smartpower;
+package com.smartpower.alert;
 
 
+import com.smartpower.user.User;
+import com.smartpower.user.UserRepository;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

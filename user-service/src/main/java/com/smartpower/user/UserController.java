@@ -1,7 +1,11 @@
-package com.smartpower;
+package com.smartpower.user;
 
+import com.smartpower.alert.AlertRequest;
+import com.smartpower.outage.OutageMessage;
+import com.smartpower.outage.OutageService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,9 +33,16 @@ public class UserController {
     public UserResponse getUser(@PathVariable("email") String email) {
         return userService.getUser(email);
     }
+    @PutMapping("/update/profile")
+    public ResponseEntity<String> updateUser(@RequestBody UserRequest userRequest){
+        String email= SecurityContextHolder.getContext().getAuthentication().getName();
+        userService.updateUser(userRequest,email);
+        return ResponseEntity.ok("User updated succesfully");
+    }
 
-    @DeleteMapping("/deleteUser/{email}")
-    public ResponseEntity<String> deleteUser(@PathVariable("email") String email) {
+    @DeleteMapping("/deleteUser")
+    public ResponseEntity<String> deleteUser() {
+        String email= SecurityContextHolder.getContext().getAuthentication().getName();
         userService.deleteUser(email);
         return ResponseEntity.ok("user deleted succesfully");
     }
@@ -52,5 +63,10 @@ public class UserController {
     @PutMapping("/update-due-date")
     public ResponseEntity<String> updateDueDate(@RequestParam("email") String email) {
         return userService.updateDueDate(email);
+    }
+
+    @GetMapping("/getAllUser")
+    public List<User> getUsers(){
+        return userService.getUsers();
     }
 }

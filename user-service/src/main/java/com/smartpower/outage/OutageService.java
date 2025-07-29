@@ -1,5 +1,8 @@
-package com.smartpower;
+package com.smartpower.outage;
 
+import com.smartpower.Role;
+import com.smartpower.user.User;
+import com.smartpower.user.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -31,7 +34,8 @@ public class OutageService {
         }
 
         for (User user : users) {
-            OutageNotificationEvent event = new OutageNotificationEvent(user.getEmail(), user.getName(), content);
+            OutageNotificationEvent event = new OutageNotificationEvent(user.getEmail(), user.getName(),
+                    content, user.getPhoneNumber(), user.getPincode());
             kafkaTemplate.send("outage-topic", event);
         }
 

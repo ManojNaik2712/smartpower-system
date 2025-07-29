@@ -1,4 +1,4 @@
-package com.smartpower;
+package com.smartpower.user;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

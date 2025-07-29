@@ -1,5 +1,6 @@
-package com.smartpower;
+package com.smartpower.user;
 
+import com.smartpower.Role;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,4 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     void deleteByEmail(String email);
 
     List<User> findByPincodeAndRole(String pincode, Role role);
+
+    List<User> findByPincode(String pincode);
 }

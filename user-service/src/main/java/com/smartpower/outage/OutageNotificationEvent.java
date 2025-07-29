@@ -1,17 +1,16 @@
-package com.smartpower;
+package com.smartpower.outage;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DueDateReminderEvent {
+public class OutageNotificationEvent {
     private String email;
-    private LocalDate dueDate;
+    private String name;
     private String message;
+    private String phoneNumber;
+    private String pincode;
 }
