@@ -26,7 +26,7 @@ public class NotificationListener {
     public void listenOutage(OutageNotificationEvent event) {
         System.out.println("Recived due reminder: " + event);
         sendEmailForOutage(event);
-        sendSMSAlert(event);
+        sendOutageSMS(event);
     }
 
     private void sendEmailForOutage(OutageNotificationEvent event) {
@@ -39,7 +39,7 @@ public class NotificationListener {
         mailSender.send(message);
     }
 
-    public void sendSMSAlert(OutageNotificationEvent event) {
+    public void sendOutageSMS(OutageNotificationEvent event) {
         String messageBody = event.getMessage();
         Message message = Message.creator(
                 new PhoneNumber(event.getPhoneNumber()),
@@ -52,6 +52,7 @@ public class NotificationListener {
     @KafkaListener(topics = "due-date-reminder-topic", groupId = "notification-group", containerFactory = "kafkaListenerContainerFactory")
     public void listenDueReminder(DueDateReminderEvent event) {
         sendEmailForDueReminder(event);
+        sendAlertSMS(event);
     }
 
     private void sendEmailForDueReminder(DueDateReminderEvent event) {
@@ -62,4 +63,31 @@ public class NotificationListener {
         message.setText(event.getMessage());
         mailSender.send(message);
     }
+
+    public void sendAlertSMS(DueDateReminderEvent event) {
+        String messageBody = event.getMessage();
+        Message message = Message.creator(
+                new PhoneNumber(event.getPhoneNumber()),
+                new PhoneNumber(fromNumber),
+                messageBody
+        ).create();
+
+    }
+
+    @KafkaListener(topics = "complaint-topic", groupId = "notification-group", containerFactory = "kafkaListenerContainerFactory")
+    public void listenComplaint(ComplaintEvent complaintEvent) {
+        sendComplaintEmail(complaintEvent);
+    }
+
+    private void sendComplaintEmail(ComplaintEvent event) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(event.getAdminEmail());
+        message.setTo(event.getUserEmail());
+        message.setSubject(event.getSubject());
+        message.setText("Complaint is sent by" + event.getUsername() + "/n/n Complaint message is:"
+                + "/n/n" + event.getMessage());
+
+        mailSender.send(message);
+    }
+
 }

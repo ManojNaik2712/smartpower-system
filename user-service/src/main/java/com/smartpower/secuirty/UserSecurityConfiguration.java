@@ -21,8 +21,9 @@ public class UserSecurityConfiguration {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/saveUser", "/user/getUser/{email}").permitAll()
-                        .requestMatchers("/user/deleteUser", "user/getMessage","user/update/profile").hasRole("USER")
-                        .requestMatchers("/user/send-alert","/user/getAllUser").hasRole("ADMIN")
+                        .requestMatchers("/user/deleteUser", "/user/getMessage","/user/update/profile","/user/complaint").hasRole("USER")
+                        .requestMatchers("/user/send-alert","/user/getAllUser","/user/getAll/complaints").hasRole("ADMIN")
+                        .requestMatchers("/user/get/complaint").hasAnyRole("USER","ADMIN")
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable())

@@ -35,6 +35,7 @@ public class DueDateReminderScheduler {
             if (dueDate != null && ChronoUnit.DAYS.between(today, dueDate) <= 3) {
                 DueDateReminderEvent event = new DueDateReminderEvent();
                 event.setEmail(user.getEmail());
+                event.setPhoneNumber(user.getPhoneNumber());
                 event.setMessage("Your electricity bill is due on " + dueDate + ". Please pay soon to avoid disconnection.");
 
                 kafkaTemplate.send("due-date-reminder-topic", event);

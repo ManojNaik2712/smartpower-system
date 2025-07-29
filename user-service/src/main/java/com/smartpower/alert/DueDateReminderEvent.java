@@ -13,4 +13,5 @@ public class DueDateReminderEvent {
     private String email;
     private LocalDate dueDate;
     private String message;
+    private String phoneNumber;
 }
