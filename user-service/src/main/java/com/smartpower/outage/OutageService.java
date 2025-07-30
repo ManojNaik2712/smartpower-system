@@ -1,5 +1,6 @@
 package com.smartpower.outage;
 
+import com.smartpower.OutageNotificationEvent;
 import com.smartpower.Role;
 import com.smartpower.user.User;
 import com.smartpower.user.UserRepository;

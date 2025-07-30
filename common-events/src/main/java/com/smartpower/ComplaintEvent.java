@@ -1,5 +1,4 @@
-package com.smartpower.complaint;
-
+package com.smartpower;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

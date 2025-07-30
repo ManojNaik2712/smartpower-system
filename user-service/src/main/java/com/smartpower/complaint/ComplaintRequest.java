@@ -6,5 +6,4 @@ import lombok.Data;
 public class ComplaintRequest {
     private String subject;
     private String message;
-
 }

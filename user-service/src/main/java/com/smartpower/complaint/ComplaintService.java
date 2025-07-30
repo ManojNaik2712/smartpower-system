@@ -1,5 +1,6 @@
 package com.smartpower.complaint;
 
+import com.smartpower.ComplaintEvent;
 import com.smartpower.Role;
 import com.smartpower.user.User;
 import com.smartpower.user.UserRepository;
@@ -27,10 +28,15 @@ public class ComplaintService {
 
         String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(userEmail);
-        Optional<User> admin = userRepository.findFirstByPincodeAndRole(user.getPincode(), Role.ADMIN);
+        Optional<User> adminOptional = userRepository.findFirstByPincodeAndRole(user.getPincode(), Role.ADMIN);
+
+        if (!adminOptional.isPresent()) {
+            throw new RuntimeException("Admin not found");
+        }
+        User admin = adminOptional.get();
 
         ComplaintEvent complaintEvent = new ComplaintEvent(request.getSubject(), request.getMessage(),
-                user.getUsername(), userEmail, admin.get().getEmail());
+                user.getUsername(), userEmail, admin.getEmail());
 
         kafkaTemplate.send("complaint-topic", complaintEvent);
 
@@ -44,7 +50,7 @@ public class ComplaintService {
         repository.save(complaint);
     }
 
-    public Complaint getComplaint(String email) {
+    public List<Complaint> getComplaint(String email) {
         return repository.findByUserEmail(email);
     }
 

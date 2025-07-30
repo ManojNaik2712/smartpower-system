@@ -15,6 +15,7 @@
         <module>common-security</module>
         <module>notification-service</module>
         <module>payment-service</module>
+        <module>common-events</module>
     </modules>
 
     <dependencyManagement>

@@ -1,6 +1,7 @@
 package com.smartpower.alert;
 
 
+import com.smartpower.DueDateReminderEvent;
 import com.smartpower.user.User;
 import com.smartpower.user.UserRepository;
 import org.springframework.kafka.core.KafkaTemplate;

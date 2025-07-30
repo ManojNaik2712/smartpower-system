@@ -1,4 +1,4 @@
-package com.smartpower.outage;
+package com.smartpower;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

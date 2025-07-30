@@ -14,13 +14,13 @@ public class NotificationListener {
     private final JavaMailSender mailSender;
     private final TwilioConfig twilioConfig;
 
+    @Value("${twilio.fromNumber}")
+    private String fromNumber;
+
     public NotificationListener(JavaMailSender mailSender, TwilioConfig twilioConfig) {
         this.mailSender = mailSender;
         this.twilioConfig = twilioConfig;
     }
-
-    @Value("${twilio.fromNumber}")
-    private String fromNumber;
 
     @KafkaListener(topics = "outage-topic", groupId = "notification-group", containerFactory = "kafkaListenerContainerFactory")
     public void listenOutage(OutageNotificationEvent event) {
