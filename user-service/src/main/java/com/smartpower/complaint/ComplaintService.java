@@ -57,4 +57,8 @@ public class ComplaintService {
     public List<Complaint> getAllComplaints() {
         return repository.findAll();
     }
+
+    public List<Complaint> getMyComplaint(String email) {
+        return repository.findByUserEmail(email);
+    }
 }

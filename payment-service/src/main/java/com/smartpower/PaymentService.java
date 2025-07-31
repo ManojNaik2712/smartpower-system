@@ -1,12 +1,8 @@
 package com.smartpower;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,6 +21,7 @@ public class PaymentService {
         this.jwtServiceUtil = jwtServiceUtil;
 
     }
+
     public void makePayment(PaymentRequest request) {
         String token = jwtServiceUtil.getToken();
         String email = jwtServiceUtil.extractEmail(token);
@@ -43,6 +40,6 @@ public class PaymentService {
     public List<Payment> getPayment() {
         String token = jwtServiceUtil.getToken();
         String email = jwtServiceUtil.extractEmail(token);
-         return paymentRepository.findByUserEmail(email);
+        return paymentRepository.findByUserEmail(email);
     }
 }

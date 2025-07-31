@@ -1,6 +1,7 @@
 package com.smartpower.complaint;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +19,12 @@ public class ComplaintController {
     public ResponseEntity<String> createComplaint(@RequestBody ComplaintRequest request) {
         complaintService.createComplaint(request);
         return ResponseEntity.ok("Complaint sent successfully");
+    }
+
+    @GetMapping("/getmy/complaint")
+    public ResponseEntity<List<Complaint>> getComplaint(Authentication authentication) {
+        String email = authentication.getName();
+        return ResponseEntity.ok(complaintService.getMyComplaint(email));
     }
 
     @GetMapping("/get/complaint")

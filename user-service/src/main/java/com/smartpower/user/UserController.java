@@ -33,16 +33,17 @@ public class UserController {
     public UserResponse getUser(@PathVariable("email") String email) {
         return userService.getUser(email);
     }
+
     @PutMapping("/update/profile")
-    public ResponseEntity<String> updateUser(@RequestBody UserRequest userRequest){
-        String email= SecurityContextHolder.getContext().getAuthentication().getName();
-        userService.updateUser(userRequest,email);
+    public ResponseEntity<String> updateUser(@RequestBody UserRequest userRequest) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        userService.updateUser(userRequest, email);
         return ResponseEntity.ok("User updated succesfully");
     }
 
     @DeleteMapping("/deleteUser")
-    public ResponseEntity<String> deleteUser() {
-        String email= SecurityContextHolder.getContext().getAuthentication().getName();
+    public ResponseEntity<String> deleteUser(Authentication authentication) {
+        String email = authentication.getName();
         userService.deleteUser(email);
         return ResponseEntity.ok("user deleted succesfully");
     }
@@ -66,7 +67,7 @@ public class UserController {
     }
 
     @GetMapping("/getAllUser")
-    public List<User> getUsers(){
+    public List<User> getUsers() {
         return userService.getUsers();
     }
 }

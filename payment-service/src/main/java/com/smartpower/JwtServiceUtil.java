@@ -24,7 +24,7 @@ public class JwtServiceUtil {
                 .getBody();
     }
 
-    public String getToken(){
+    public String getToken() {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest httpRequest = attr.getRequest();
 

@@ -15,6 +15,7 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
     @Value("${admin.secret}")
     private String adminSecret;
 

@@ -80,12 +80,15 @@ public class NotificationListener {
     }
 
     private void sendComplaintEmail(ComplaintEvent event) {
+        String text = "Complaint is sent by: " + event.getUsername() + "\n\n" +
+                "Complaint message: \n\n" +
+                event.getMessage();
+
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(event.getAdminEmail());
         message.setTo(event.getUserEmail());
         message.setSubject(event.getSubject());
-        message.setText("Complaint is sent by" + event.getUsername() + "/n/n Complaint message is:"
-                + "/n/n" + event.getMessage());
+        message.setText(text);
 
         mailSender.send(message);
     }

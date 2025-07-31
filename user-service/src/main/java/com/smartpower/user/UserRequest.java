@@ -18,6 +18,5 @@ public class UserRequest {
     private String pincode;
     private Role role;
     private String adminSecret;
-
 }
 

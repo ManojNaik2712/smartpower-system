@@ -25,7 +25,6 @@ public class DueDateReminderScheduler {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-
     @Scheduled(cron = "0 45 11 * * ?") //Every day at 11 45Am due date notification will be sent
     public void sendDueDateReminders() {
         List<User> users = userRepository.findAll();

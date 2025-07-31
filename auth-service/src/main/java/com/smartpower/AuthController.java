@@ -1,5 +1,6 @@
 package com.smartpower;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +18,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> createUser(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<String> createUser(@Valid @RequestBody UserRequest userRequest) {
         String token = authService.createUser(userRequest);
         return ResponseEntity.ok(token);
     }
