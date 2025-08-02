@@ -12,10 +12,13 @@ public class PaymentSecuirtyConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/payment").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**",
+                                "/swagger-resources/**", "/webjars/**","/payment").permitAll()
                         .anyRequest().permitAll()
                 )
-                .csrf(csrf -> csrf.disable());
+                .csrf(csrf -> csrf.disable())
+                .formLogin(form -> form.disable())
+                .httpBasic(httpBasic -> httpBasic.disable());
 
         return http.build();
     }

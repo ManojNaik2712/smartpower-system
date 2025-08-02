@@ -41,11 +41,14 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**",
+                                "/swagger-resources/**", "/webjars/**").permitAll()
                         .requestMatchers("/auth/register", "/auth/login").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable())
-                .httpBasic(withDefaults());
+                .formLogin(form -> form.disable())
+                .httpBasic(httpBasic -> httpBasic.disable());
 
         return http.build();
     }

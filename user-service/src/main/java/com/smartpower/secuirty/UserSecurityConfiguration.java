@@ -19,7 +19,12 @@ public class UserSecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**",
+                                "/swagger-resources/**", "/webjars/**").permitAll()
+
                         .requestMatchers("/user/saveUser", "/user/getUser/{email}").permitAll()
 
                         .requestMatchers("/user/deleteUser", "/user/getMessage", "/user/update/profile",
@@ -30,8 +35,9 @@ public class UserSecurityConfiguration {
 
                         .anyRequest().authenticated()
                 )
-                .csrf(csrf -> csrf.disable())
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin(form -> form.disable())
+                .httpBasic(httpBasic -> httpBasic.disable());
 
         return http.build();
     }
