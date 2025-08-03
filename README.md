@@ -89,7 +89,7 @@ Swagger UI is enabled for each service:
 
 SmartPower System Postman Collection:
 
-https://web.postman.co/workspace/My-Workspace~5e0f643e-ad3e-4a7c-8d67-39720a724120/collection/39955671-8d7aa289-d22b-4e95-b1d9-4d60adf61307?action=share&source=copy-link&creator=39955671
+https://www.postman.com/payload-physicist-15218924/workspace/smartpowersystem/collection/39955671-8d7aa289-d22b-4e95-b1d9-4d60adf61307?action=share&creator=39955671
 
 ---
 
