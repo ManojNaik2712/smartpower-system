@@ -68,12 +68,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.smartpower</groupId>
-            <artifactId>common-security</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.hibernate.validator</groupId>
@@ -84,6 +78,20 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.smartpower</groupId>
+            <artifactId>common-security</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.smartpower</groupId>
+            <artifactId>common-exceptions</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>

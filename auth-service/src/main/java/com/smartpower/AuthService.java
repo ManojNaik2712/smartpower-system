@@ -1,5 +1,6 @@
 package com.smartpower;
 
+import com.smartpower.AuthException.AdminSecretMismatchException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -33,7 +34,7 @@ public class AuthService {
         if (loginDTO.getRole().equals(Role.ADMIN)) {
             if (loginDTO.getAdminSecret() == null ||
                     !loginDTO.getAdminSecret().equals(adminSecret)) {
-                throw new RuntimeException("Invalid secretcode");
+                throw new AdminSecretMismatchException("Invalid secretcode");
             }
         }
         Authentication authentication = authenticationManager.authenticate(

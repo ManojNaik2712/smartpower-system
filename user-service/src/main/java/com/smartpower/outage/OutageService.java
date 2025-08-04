@@ -2,6 +2,7 @@ package com.smartpower.outage;
 
 import com.smartpower.OutageNotificationEvent;
 import com.smartpower.Role;
+import com.smartpower.UserException.UserNotFoundException;
 import com.smartpower.user.User;
 import com.smartpower.user.UserRepository;
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ public class OutageService {
         List<User> users = userRepository.findByPincodeAndRole(pincode, Role.USER);
 
         if (users.isEmpty()) {
-            throw new RuntimeException("No user found for pincode:" + pincode);
+            throw new UserNotFoundException("No user found for pincode:" + pincode);
         }
 
         for (User user : users) {

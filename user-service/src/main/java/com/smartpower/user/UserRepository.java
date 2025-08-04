@@ -10,6 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+    boolean existsByEmail(String email);
+
     User findByEmail(String email);
 
     @Transactional
@@ -20,4 +22,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findFirstByPincodeAndRole(String pincode, Role role);
 
     List<User> findByPincode(String pincode);
+
 }

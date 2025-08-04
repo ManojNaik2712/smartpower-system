@@ -1,6 +1,9 @@
 package com.smartpower.user;
 
+import com.smartpower.AuthException.AdminSecretMismatchException;
 import com.smartpower.Role;
+import com.smartpower.UserException.DuplicateUserException;
+import com.smartpower.UserException.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,9 +31,12 @@ public class UserService {
         if (userRequest.getRole().equals(Role.ADMIN)) {
             if (userRequest.getAdminSecret() == null ||
                     !userRequest.getAdminSecret().equals(adminSecret)) {
-                throw new RuntimeException("Invalid secretcode");
+                throw new AdminSecretMismatchException("Invalid secretcode");
             }
+        } else if (userRepository.existsByEmail(userRequest.getEmail())) {
+            throw new DuplicateUserException("User already exists with email: " + userRequest.getEmail());
         }
+
         User user = new User();
         user.setName(userRequest.getName());
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
@@ -44,7 +50,7 @@ public class UserService {
     public UserResponse getUser(String email) {
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UserNotFoundException("User not found");
         }
         return UserResponse.builder()
                 .email(user.getEmail())
@@ -63,7 +69,7 @@ public class UserService {
     public ResponseEntity<String> updateDueDate(String email) {
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            throw new UsernameNotFoundException("User with this email:" + email + "not found");
+            throw new UserNotFoundException("User with this email:" + email + "not found");
         }
 
         user.setDuedate(LocalDate.now().plusDays(30));
@@ -72,13 +78,13 @@ public class UserService {
     }
 
     public List<User> getUsers() {
-        String email= SecurityContextHolder.getContext().getAuthentication().getName();
-        User user=userRepository.findByEmail(email);
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email);
         return userRepository.findByPincode(user.getPincode());
     }
 
-    public void updateUser(UserRequest userRequest,String email) {
-        User user=userRepository.findByEmail(email);
+    public void updateUser(UserRequest userRequest, String email) {
+        User user = userRepository.findByEmail(email);
         user.setName(userRequest.getName());
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         user.setRole(userRequest.getRole());
