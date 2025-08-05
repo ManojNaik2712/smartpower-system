@@ -19,7 +19,7 @@ public class OutageMessage {
     private Long id;
 
     @NotBlank(message = "Pincode is required")
-    @Pattern(regexp = "\\d{6}", message ="Pincode must be exactly 6 digits" )
+    @Pattern(regexp = "\\d{6}", message = "Pincode must be exactly 6 digits")
     private String pincode;
 
     private String title;

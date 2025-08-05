@@ -19,7 +19,7 @@ public class UserRequest {
     @NotBlank(message = "Email is required")
     private String email;
 
-    @NotBlank(message = "Email is required")
+    @NotBlank(message = "Password is required")
     private String password;
 
     @NotBlank(message = "Phone number is required")
@@ -27,7 +27,7 @@ public class UserRequest {
     private String phoneNumber;
 
     @NotBlank(message = "Pincode is required")
-    @Pattern(regexp = "\\d{6}", message ="Pincode must be exactly 6 digits" )
+    @Pattern(regexp = "\\d{6}", message = "Pincode must be exactly 6 digits")
     private String pincode;
 
     private Role role;

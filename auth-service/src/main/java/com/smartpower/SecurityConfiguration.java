@@ -1,6 +1,7 @@
 package com.smartpower;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,9 +12,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
+/**
+ * This class configures Spring Security for the SmartPower application.
+ * It defines the authentication provider, password encoding strategy,
+ * authentication manager, and HTTP security rules.
+ */
 @Configuration
+@Slf4j
 public class SecurityConfiguration {
 
     private final PasswordEncoder passwordEncoder;
@@ -24,7 +29,14 @@ public class SecurityConfiguration {
         this.userDetailServiceProvider = userDetailServiceProvider;
     }
 
+    /**
+     * Configures the authentication provider using a DAO-based provider
+     * that fetches user details and encodes passwords.
+     *
+     * @return an instance of AuthenticationProvider
+     */
     public AuthenticationProvider authenticationProvider() {
+        log.info("Initializing AuthenticationProvider using DAO and custom UserDetailServiceProvider");
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
         provider.setUserDetailsService(userDetailServiceProvider);
@@ -37,6 +49,12 @@ public class SecurityConfiguration {
 
     }
 
+    /**
+     * Configures the HTTP security rules for the application
+     *
+     * @param http HttpSecurity instance
+     * @return SecurityFilterChain
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -50,6 +68,7 @@ public class SecurityConfiguration {
                 .formLogin(form -> form.disable())
                 .httpBasic(httpBasic -> httpBasic.disable());
 
+        log.info("Security configuration initialized successfully");
         return http.build();
     }
 

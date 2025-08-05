@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 @Configuration
 public class PaymentSecuirtyConfiguration {
 
@@ -13,8 +14,8 @@ public class PaymentSecuirtyConfiguration {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**",
-                                "/swagger-resources/**", "/webjars/**","/payment").permitAll()
-                        .anyRequest().permitAll()
+                                "/swagger-resources/**", "/webjars/**", "/payment", "/get/payment").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable())
                 .formLogin(form -> form.disable())

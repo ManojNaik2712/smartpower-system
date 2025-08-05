@@ -11,12 +11,23 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.function.Function;
 
+/**
+ * Service class for handling JWT (JSON Web Token) operations such as
+ * token generation, validation, and claim extraction.
+ */
 @Service
 public class JwtService {
 
     @Value("${jwt.secret}")
     private String secretkey;
 
+    /**
+     * Generates a JWT token using the user's email and role.
+     *
+     * @param email the user's email to be set as subject
+     * @param role  the user's role to be included as a custom claim
+     * @return a signed JWT token string
+     */
     public String generateToken(String email, Role role) {
         return Jwts.builder()
                 .setSubject(email)
