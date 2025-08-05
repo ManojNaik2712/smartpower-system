@@ -1,6 +1,6 @@
 # SmartPower System 
 
-SmartPower System is a Spring Boot-based microservices project that enables power distribution companies to manage users, monitor outages, process user payments, and handle complaints efficiently. Built using a modular architecture with JWT-based authentication, Kafka for event-driven communication, and integrated Swagger documentation.
+SmartPower System is a Spring Boot-based microservices project designed to modernize and streamline electricity management for power distribution companies, especially in rural areas. It offers secure JWT-based user authentication, real-time outage notifications via SMS and email using Kafka-driven event communication, and allows users to make payments and submit complaints easily. With location-based pincode mapping, admins can notify users in specific areas about outages or faults, and users can report issues directly to their local admin. The system bridges the communication gap for users who may not have access to email but rely on SMS, ensuring timely updates and efficient resolution of electricity-related concerns. Integrated Swagger documentation and modular architecture make it scalable, maintainable, and suitable for real-world deployment.
 
 ---
 
@@ -14,6 +14,7 @@ This is a multi-module Maven project with the following services:
  - payment-service      : Manages user bills, payments, and due date tracking
  - notification-service : Sends outage & due date alerts via Kafka
  - common               : Shared DTOs and utilities across services
+ - common-exceptions    : Handles the customized exceptions
 
 ---
 
